@@ -15,39 +15,39 @@ with open(budget_data, newline="") as csvfile:
     profit = []
     months = []
 
-    #read through each row of data after header
+    #read through each row of data following header
     for rows in csvreader:
         
-        # append the total profit and total months
+        # append totals for profit and months
         profit.append(int(rows[1]))
         months.append(rows[0])
 
-    # find revenue change
-    revenue_change = []
+    # initialize variable for average change 
+    average_change = []
 
     for x in range(1, len(profit)):
-        revenue_change.append((int(profit[x]) - int(profit[x-1])))
+        average_change.append((int(profit[x]) - int(profit[x-1])))
     
     # determine average change in "Profit/Losses" between months over the entire period
-    revenue_average = sum(revenue_change) / len(revenue_change)
-    
-    # calculate total length of months
+    revenue_change = (round(sum(average_change) / len(average_change),2))
+ 
+    # determine total months
     total_months = len(months)
 
     # determine greatest increase in profits over the entire period
-    greatest_increase = max(revenue_change)
+    greatest_increase = max(average_change)
     
     # determine greatest decrease in losses over the entire period
-    greatest_decrease = min(revenue_change)
+    greatest_decrease = min(average_change)
 
 # print the analysis
 print("Financial Analysis")
 print("----------------------------------")
 print("Total Months: " + str(total_months))
 print("Total: " + "$" + str(sum(profit)))
-print("Average Change: " + "$" + str(revenue_average))    
-print("Greatest Increase in Profits: " + str(months[revenue_change.index(max(revenue_change))+1]) + " " + "$" + str(greatest_increase))
-print("Greatest Decrease in Profits: " + str(months[revenue_change.index(min(revenue_change))+1]) + " " + "$" + str(greatest_decrease))
+print("Average Change: " + "$" + str(revenue_change))  
+print("Greatest Increase in Profits: " + str(months[average_change.index(max(average_change))+1]) + " " + "$" + str(greatest_increase))
+print("Greatest Decrease in Profits: " + str(months[average_change.index(min(average_change))+1]) + " " + "$" + str(greatest_decrease))
 
 # export the results
 file = open("pybank_results.txt","w")
@@ -61,9 +61,9 @@ file.write(f"Total Months: " + str(total_months))
 file.write("\n")
 file.write(f"Total: " + "$" + str(sum(profit)))
 file.write("\n")
-file.write(f"Average Change: " + "$" + str(revenue_average))
+file.write(f"Average Change: " + "$" + str(revenue_change))
 file.write("\n")
-file.write(f"Greatest Increase in Profits: " + str(months[revenue_change.index(max(revenue_change))+1]) + " " + "$" + str(greatest_increase))
+file.write(f"Greatest Increase in Profits: " + str(months[average_change.index(max(average_change))+1]) + " " + "$" + str(greatest_increase))
 file.write("\n")
-file.write(f"Greatest Decrease in Profits: " + str(months[revenue_change.index(min(revenue_change))+1]) + " " + "$" + str(greatest_decrease))
+file.write(f"Greatest Decrease in Profits: " + str(months[average_change.index(min(average_change))+1]) + " " + "$" + str(greatest_decrease))
 file.close()
